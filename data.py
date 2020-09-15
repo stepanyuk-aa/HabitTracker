@@ -1,18 +1,33 @@
-import pandas as pd
+import pickle as pk
+
+def init():
+    a = {'Андрей': {'Name':'Андрей','Scope': 0, 'Mounth_task': "test1", 'Week_task': "test2", 'Day_task': "test3", 'Rememeber': "test4"}}
+    a['Ирина'] = {'Name':'Ирина','Scope': 0, 'Mounth_task': "test1", 'Week_task': "test2", 'Day_task': "test3", 'Rememeber': "test4"}
+
+    file = open("data.dmp", "wb")
+    pk.dump(a, file)
+    file.close()
 
 def read(user):
-    df = pd.read_csv('data.csv', sep=',')
-    tmp = df.loc[df['Name'] == user].to_numpy()[0]
-    return {'Name':tmp[0],'Scope':tmp[1],'Mounth_task':tmp[2],'Week_task':tmp[3],'Day_task':tmp[4],'Rememeber':tmp[5]}
+    file = open("data.dmp", "rb")
+    test = pk.load(file)[user]
+    file.close()
+    return test
 
 def write(user, param, value):
-    arr = {'Name':0,'Scope':1,'Mounth_task':2,'Week_task':3,'Day_task':4,'Rememeber':5}
-    df = pd.read_csv('data.csv', sep=',')
-    tmp = df.loc[df['Name'] == user]
-    index = tmp.index[0]
-    tmp = tmp.to_numpy()[0]
+    file = open("data.dmp", "rb")
+    data = pk.load(file)
+    file.close()
 
-    tmp[arr[param]] = value
-    df.loc[index] = tmp
+    data[user][param] = value
 
-    df.to_csv('data.csv', sep=',')
+    file = open("data.dmp", "wb")
+    pk.dump(data, file)
+    file.close()
+
+
+def scope(user, value):
+    scope = int(read(user)['Scope']) + int(value)
+    write(user, 'Scope', scope)
+
+
