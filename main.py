@@ -1,8 +1,8 @@
 import config
 import data
 import logging
+import logs
 from datetime import datetime
-
 
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandler
@@ -79,7 +79,9 @@ def get_points(update, context):
 
 def get_description(update, context):
     context.user_data['description'] = update.message.text
-    text = "User: %s \nPoints: %s \nText: %s" % (context.user_data['username'], context.user_data['points'], context.user_data['description'])
+    text = "Points " + str(context.user_data['points']) + " for " + str(context.user_data['description'])
+
+    logs.create_log(datetime.now(), update._effective_user.username, context.user_data['username'], text)
 
     data.scope(context.user_data['username'],context.user_data['points'])
 
