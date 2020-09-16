@@ -7,8 +7,7 @@ from telegram.ext import ConversationHandler
 
 def set_tasks(update, context):
     """Хочу установить задачу"""
-    reply_keyboard = [['Андрей', 'Ирина']]
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+    markup = ReplyKeyboardMarkup(config.users_keyboard, one_time_keyboard=True)
 
     context.bot.send_message(chat_id=update.effective_chat.id, text='Кому?', reply_markup=markup)
     return "username"
