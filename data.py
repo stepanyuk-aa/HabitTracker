@@ -2,14 +2,6 @@ import pickle as pk
 
 def init():
     a = {'Андрей': {'Name':'Андрей','Scope': 0, 'Mounth_task': "test1", 'Week_task': "test2", 'Day_task': "test3", 'Rememeber': "test4"}}
-    a['Ирина'] = {
-        'Name':'Ирина',
-        'Scope': 0,
-        'Mounth_task': "test1",
-        'Week_task':   "test2",
-        'Day_task':    "test3",
-        'Rememeber':   "test4"
-    }
 
     file = open("data.dmp", "wb")
     pk.dump(a, file)
@@ -40,3 +32,6 @@ def scope(user, value):
 
 def task(user, type, description):
     write(user, type, description)
+
+if __name__ == '__main__':
+    init()
